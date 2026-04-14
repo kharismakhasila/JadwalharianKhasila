@@ -1,0 +1,329 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Harian Khasila ✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        cursive: ['Pacifico', 'cursive'],
+                    },
+                    colors: {
+                        khasila: {
+                            pink: '#FFB6B9',
+                            peach: '#FAE3D9',
+                            mint: '#BBDED6',
+                            blue: '#8AC6D1',
+                            bg: '#FFF0F5',
+                            text: '#4A4A4A',
+                            white: '#FFFFFF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFF0F5;
+            background-image: radial-gradient(#FFB6B9 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #4A4A4A;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(255, 182, 185, 0.2);
+        }
+
+        .schedule-item {
+            transition: all 0.3s ease;
+            animation: slideUp 0.4s ease-out forwards;
+        }
+
+        .schedule-item:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 20px -5px rgba(255, 182, 185, 0.4);
+        }
+
+        .item-done {
+            opacity: 0.6;
+            background-color: #f8f9fa;
+        }
+        
+        .item-done .title-text {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFB6B9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff9a9e;
+        }
+
+        .category-rutin { background-color: #8AC6D1; color: white; }
+        .category-hobi { background-color: #BBDED6; color: #4A4A4A; }
+        .category-spesial { background-color: #FFB6B9; color: white; }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4 font-sans selection:bg-khasila-pink selection:text-white">
+
+    <div class="max-w-md mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <div class="inline-block p-4 rounded-full bg-white shadow-md mb-3 border-4 border-khasila-peach animate-bounce" style="animation-duration: 3s;">
+                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Khasila&backgroundColor=transparent" alt="Khasila Avatar" class="w-16 h-16">
+            </div>
+            <h1 class="font-cursive text-4xl text-khasila-text mb-2">Hai, Khasila! ✨</h1>
+            <p class="text-gray-500 font-medium text-sm">Mari buat harimu luar biasa, cantik, dan produktif!</p>
+        </header>
+
+        <!-- Main App Container -->
+        <main class="glass-card rounded-3xl p-6 mb-8">
+            
+            <!-- Add Form -->
+            <form id="scheduleForm" class="mb-8 bg-white p-5 rounded-2xl shadow-sm border border-khasila-peach/50">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2 text-khasila-pink">
+                    <i class="ph-fill ph-plus-circle text-2xl"></i> Tambah Kegiatan
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="flex gap-3">
+                        <div class="w-1/3">
+                            <label class="block text-xs font-bold text-gray-500 mb-1">Waktu</label>
+                            <input type="time" id="timeInput" required class="w-full bg-khasila-bg rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-khasila-pink transition">
+                        </div>
+                        <div class="w-2/3">
+                            <label class="block text-xs font-bold text-gray-500 mb-1">Kategori</label>
+                            <select id="categoryInput" class="w-full bg-khasila-bg rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-khasila-pink transition">
+                                <option value="rutin">📅 Rutinitas</option>
+                                <option value="hobi">🎨 Hobi</option>
+                                <option value="spesial">✨ Momen Spesial</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 mb-1">Nama Kegiatan</label>
+                        <input type="text" id="titleInput" placeholder="Misal: Skincare Malam, Baca Novel..." required class="w-full bg-khasila-bg rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-khasila-pink transition placeholder-gray-400">
+                    </div>
+
+                    <button type="submit" class="w-full bg-khasila-pink hover:bg-[#ff9a9e] text-white font-bold py-3 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95 flex justify-center items-center gap-2">
+                        <i class="ph-bold ph-calendar-plus"></i> Simpan ke Jadwal
+                    </button>
+                </div>
+            </form>
+
+            <!-- Filters -->
+            <div class="flex gap-2 overflow-x-auto pb-4 mb-2 no-scrollbar" id="filters">
+                <button class="filter-btn active px-4 py-1.5 rounded-full text-sm font-bold bg-khasila-text text-white whitespace-nowrap transition-all" data-filter="all">Semua</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 whitespace-nowrap transition-all" data-filter="rutin">📅 Rutinitas</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 whitespace-nowrap transition-all" data-filter="hobi">🎨 Hobi</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 whitespace-nowrap transition-all" data-filter="spesial">✨ Spesial</button>
+            </div>
+
+            <!-- Schedule List -->
+            <div id="scheduleList" class="space-y-3 min-h-[200px]">
+                <!-- Items will be generated here -->
+            </div>
+            
+            <!-- Empty State (Hidden by default) -->
+            <div id="emptyState" class="hidden flex-col items-center justify-center py-10 text-center opacity-70">
+                <i class="ph-duotone ph-sleeping text-6xl text-khasila-pink mb-3"></i>
+                <p class="font-medium">Belum ada jadwal nih.</p>
+                <p class="text-sm text-gray-500">Yuk tambahkan aktivitas serumu hari ini!</p>
+            </div>
+
+        </main>
+        
+        <p class="text-center text-xs text-gray-400 font-medium">Dibuat penuh cinta untuk Khasila 🌸</p>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // State Management
+        let schedules = JSON.parse(localStorage.getItem('khasilaSchedules')) || [];
+        let currentFilter = 'all';
+
+        // DOM Elements
+        const form = document.getElementById('scheduleForm');
+        const listContainer = document.getElementById('scheduleList');
+        const emptyState = document.getElementById('emptyState');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Helpers for categories
+        const categoryConfig = {
+            rutin: { icon: 'ph-calendar-check', label: 'Rutinitas', colorClass: 'category-rutin' },
+            hobi: { icon: 'ph-palette', label: 'Hobi', colorClass: 'category-hobi' },
+            spesial: { icon: 'ph-sparkle', label: 'Spesial', colorClass: 'category-spesial' }
+        };
+
+        // Initialize App
+        function init() {
+            renderSchedules();
+            
+            // Form Submit Event
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                addSchedule();
+            });
+
+            // Filter Events
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Update active styling
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-khasila-text', 'text-white');
+                        b.classList.add('bg-white', 'text-gray-500');
+                    });
+                    e.target.classList.remove('bg-white', 'text-gray-500');
+                    e.target.classList.add('bg-khasila-text', 'text-white');
+
+                    // Set filter and render
+                    currentFilter = e.target.dataset.filter;
+                    renderSchedules();
+                });
+            });
+        }
+
+        // Add New Schedule
+        function addSchedule() {
+            const time = document.getElementById('timeInput').value;
+            const category = document.getElementById('categoryInput').value;
+            const title = document.getElementById('titleInput').value;
+
+            const newSchedule = {
+                id: Date.now().toString(),
+                time: time,
+                category: category,
+                title: title,
+                isDone: false
+            };
+
+            schedules.push(newSchedule);
+            saveData();
+            renderSchedules();
+            form.reset();
+            
+            // Set default time to slightly after now for convenience
+            document.getElementById('timeInput').focus();
+        }
+
+        // Toggle Done Status
+        function toggleDone(id) {
+            const index = schedules.findIndex(s => s.id === id);
+            if (index !== -1) {
+                schedules[index].isDone = !schedules[index].isDone;
+                saveData();
+                renderSchedules();
+            }
+        }
+
+        // Delete Schedule
+        function deleteSchedule(id) {
+            if(confirm('Hapus kegiatan ini dari jadwal?')) {
+                schedules = schedules.filter(s => s.id !== id);
+                saveData();
+                renderSchedules();
+            }
+        }
+
+        // Save to LocalStorage
+        function saveData() {
+            localStorage.setItem('khasilaSchedules', JSON.stringify(schedules));
+        }
+
+        // Render List
+        function renderSchedules() {
+            listContainer.innerHTML = '';
+
+            // Filter
+            let filteredSchedules = schedules;
+            if (currentFilter !== 'all') {
+                filteredSchedules = schedules.filter(s => s.category === currentFilter);
+            }
+
+            // Sort by time
+            filteredSchedules.sort((a, b) => a.time.localeCompare(b.time));
+
+            if (filteredSchedules.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+
+                filteredSchedules.forEach((schedule, index) => {
+                    const cat = categoryConfig[schedule.category];
+                    const doneClass = schedule.isDone ? 'item-done' : 'bg-white';
+                    const checkIcon = schedule.isDone ? 'ph-check-circle ph-fill text-green-500' : 'ph-circle text-gray-300';
+                    
+                    // Delay animation slightly for each item
+                    const animationDelay = index * 0.1;
+
+                    const itemHTML = `
+                        <div class="schedule-item ${doneClass} p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between gap-3" style="animation-delay: ${animationDelay}s">
+                            
+                            <!-- Left side: Time & Checkbox -->
+                            <div class="flex items-center gap-4 flex-1 cursor-pointer" onclick="toggleDone('${schedule.id}')">
+                                <i class="${checkIcon} text-2xl hover:scale-110 transition-transform"></i>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-sm font-bold text-khasila-text bg-gray-100 px-2 py-0.5 rounded-md">${schedule.time}</span>
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${cat.colorClass} flex items-center gap-1">
+                                            <i class="${cat.icon}"></i> ${cat.label}
+                                        </span>
+                                    </div>
+                                    <h3 class="title-text font-bold text-[15px]">${schedule.title}</h3>
+                                </div>
+                            </div>
+
+                            <!-- Right side: Actions -->
+                            <button onclick="deleteSchedule('${schedule.id}')" class="text-gray-400 hover:text-red-500 transition-colors p-2 bg-white rounded-full hover:bg-red-50" title="Hapus">
+                                <i class="ph-bold ph-trash"></i>
+                            </button>
+
+                        </div>
+                    `;
+                    listContainer.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            }
+        }
+
+        // Run app
+        init();
+
+    </script>
+</body>
+</html>
+
+```
